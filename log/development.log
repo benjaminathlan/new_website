@@ -1,0 +1,1385 @@
+# Logfile created on Wed Feb 03 16:42:07 +0100 2010  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mselect sqlite_version(*)[0m
+  [4;36;1mSQL (1.8ms)[0m   [0;1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [4;35;1mSQL (1.5ms)[0m   [0mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateRadiantTables (1)
+  [4;36;1mSQL (0.2ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mCREATE TABLE "config" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "key" varchar(40) DEFAULT '' NOT NULL, "value" varchar(255) DEFAULT '') [0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mCREATE UNIQUE INDEX "key" ON "config" ("key")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mCREATE TABLE "pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "behavior" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TABLE "page_parts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "filter" varchar(25), "content" text, "page_id" integer) [0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TABLE "snippets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) DEFAULT '' NOT NULL, "filter" varchar(25), "content" text, "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE UNIQUE INDEX "name" ON "snippets" ("name")[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "layouts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "content" text, "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "admin" integer(1) DEFAULT 0 NOT NULL, "developer" integer(1) DEFAULT 0 NOT NULL, "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE UNIQUE INDEX "login" ON "users" ("login")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('1')[0m
+Migrating to InsertInitialData (2)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('2')[0m
+Migrating to RenameBehaviorColumn (3)
+  [4;35;1mSQL (0.6ms)[0m   [0mCREATE TEMPORARY TABLE "altered_pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "behavior_id" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("pages")[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mDROP TABLE "pages"[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE TABLE "pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "behavior_id" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("altered_pages")[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mDROP TABLE "altered_pages"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('3')[0m
+Migrating to RenameFilterColumn (4)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_page_parts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "filter_id" varchar(25), "content" text, "page_id" integer) [0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("page_parts")[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mDROP TABLE "page_parts"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "page_parts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "filter_id" varchar(25), "content" text, "page_id" integer) [0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("altered_page_parts")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_page_parts"[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_snippets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) DEFAULT '' NOT NULL, "filter_id" varchar(25), "content" text, "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mPRAGMA index_list("snippets")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('name')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE UNIQUE INDEX "temp_name" ON "altered_snippets" ("name")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mDROP TABLE "snippets"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "snippets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) DEFAULT '' NOT NULL, "filter_id" varchar(25), "content" text, "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_snippets")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('temp_name')[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE UNIQUE INDEX "name" ON "snippets" ("name")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_snippets"[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('4')[0m
+Migrating to AddVirtualColumnToPage (5)
+  [4;35;1mSQL (0.7ms)[0m   [0mALTER TABLE "pages" ADD "virtual" boolean DEFAULT 'f' NOT NULL[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('5')[0m
+Migrating to IntegerColumnsToBoolean (6)
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" ORDER BY name[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "admin" integer(1) DEFAULT 0 NOT NULL, "developer" integer(1) DEFAULT 0 NOT NULL, "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('login')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE UNIQUE INDEX "temp_login" ON "altered_users" ("login")[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mDROP TABLE "users"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "developer" integer(1) DEFAULT 0 NOT NULL, "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mPRAGMA index_list("altered_users")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mPRAGMA index_info('temp_login')[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mCREATE UNIQUE INDEX "login" ON "users" ("login")[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mDROP TABLE "altered_users"[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mALTER TABLE "users" ADD "admin" boolean DEFAULT 'f' NOT NULL[0m
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" ORDER BY name[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "developer" integer(1) DEFAULT 0 NOT NULL, "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer, "admin" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('login')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE UNIQUE INDEX "temp_login" ON "altered_users" ("login")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mDROP TABLE "users"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "created_at" datetime, "updated_at" datetime, "created_by" integer, "updated_by" integer, "admin" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_users")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('temp_login')[0m
+  [4;36;1mSQL (0.8ms)[0m   [0;1mCREATE UNIQUE INDEX "login" ON "users" ("login")[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mDROP TABLE "altered_users"[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mALTER TABLE "users" ADD "developer" boolean DEFAULT 'f' NOT NULL[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('6')[0m
+Migrating to RemoveVirtualColumnFromPage (7)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "behavior_id" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer, "virtual" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("pages")[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mDROP TABLE "pages"[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mCREATE TABLE "pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "behavior_id" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_pages")[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mDROP TABLE "altered_pages"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('7')[0m
+Migrating to AddVirtualColumnToPageAgain (8)
+  [4;35;1mSQL (0.6ms)[0m   [0mALTER TABLE "pages" ADD "virtual" boolean DEFAULT 'f' NOT NULL[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('8')[0m
+Migrating to AddContentTypeFieldToLayout (9)
+  [4;35;1mSQL (6.3ms)[0m   [0mALTER TABLE "layouts" ADD "content_type" varchar(40)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('9')[0m
+Migrating to MergeBehaviorsAndPages (10)
+  [4;35;1mMergeBehaviorsAndPages::OldPage Load (0.2ms)[0m   [0mSELECT * FROM "pages" [0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "type" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer, "virtual" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("pages")[0m
+  [4;36;1mSQL (28.0ms)[0m   [0;1mDROP TABLE "pages"[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "type" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer, "virtual" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("altered_pages")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_pages"[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('10')[0m
+Migrating to RenameTypeColumnOnPageToClassName (11)
+  [4;35;1mSQL (0.4ms)[0m   [0mCREATE TEMPORARY TABLE "altered_pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "class_name" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer, "virtual" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("pages")[0m
+  [4;35;1mSQL (0.6ms)[0m   [0mDROP TABLE "pages"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TABLE "pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "class_name" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by" integer, "updated_by" integer, "virtual" boolean DEFAULT 'f' NOT NULL) [0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("altered_pages")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mDROP TABLE "altered_pages"[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('11')[0m
+Migrating to CreateExtensionMeta (12)
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mCREATE TABLE "extension_meta" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "schema_version" integer DEFAULT 0, "enabled" boolean DEFAULT 't') [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('12')[0m
+Migrating to AddNotesFieldToUser (13)
+  [4;35;1mSQL (0.5ms)[0m   [0mALTER TABLE "users" ADD "notes" text[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('13')[0m
+Migrating to RenameConfigDefaultPartsKey (14)
+  [4;35;1mRadiant::Config Load (0.2ms)[0m   [0mSELECT * FROM "config" WHERE ("config"."key" = 'default.parts') LIMIT 1[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('14')[0m
+Migrating to AddOptimisticLocking (15)
+  [4;35;1mSQL (0.5ms)[0m   [0mALTER TABLE "pages" ADD "lock_version" integer DEFAULT 0[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mALTER TABLE "layouts" ADD "lock_version" integer DEFAULT 0[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mALTER TABLE "snippets" ADD "lock_version" integer DEFAULT 0[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mALTER TABLE "users" ADD "lock_version" integer DEFAULT 0[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('15')[0m
+Migrating to AddSessions (16)
+  [4;36;1mSQL (0.5ms)[0m   [0;1mCREATE TABLE "sessions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "session_id" varchar(255), "data" text, "updated_at" datetime) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE INDEX "index_sessions_on_session_id" ON "sessions" ("session_id")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mCREATE INDEX "index_sessions_on_updated_at" ON "sessions" ("updated_at")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('16')[0m
+Migrating to RenameCreatedByUpdatedByColumns (17)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "class_name" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by_id" integer, "updated_by" integer, "virtual" boolean DEFAULT 'f' NOT NULL, "lock_version" integer DEFAULT 0) [0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("pages")[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mDROP TABLE "pages"[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "class_name" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by_id" integer, "updated_by" integer, "virtual" boolean DEFAULT 'f' NOT NULL, "lock_version" integer DEFAULT 0) [0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("altered_pages")[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mDROP TABLE "altered_pages"[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "class_name" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by_id" integer, "updated_by_id" integer, "virtual" boolean DEFAULT 'f' NOT NULL, "lock_version" integer DEFAULT 0) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("pages")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mDROP TABLE "pages"[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "pages" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "slug" varchar(100), "breadcrumb" varchar(160), "class_name" varchar(25), "status_id" integer DEFAULT 1 NOT NULL, "parent_id" integer, "layout_id" integer, "created_at" datetime, "updated_at" datetime, "published_at" datetime, "created_by_id" integer, "updated_by_id" integer, "virtual" boolean DEFAULT 'f' NOT NULL, "lock_version" integer DEFAULT 0) [0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("altered_pages")[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mDROP TABLE "altered_pages"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_snippets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) DEFAULT '' NOT NULL, "filter_id" varchar(25), "content" text, "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by" integer, "lock_version" integer DEFAULT 0) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("snippets")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('name')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE UNIQUE INDEX "temp_name" ON "altered_snippets" ("name")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mDROP TABLE "snippets"[0m
+  [4;35;1mSQL (0.9ms)[0m   [0mCREATE TABLE "snippets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) DEFAULT '' NOT NULL, "filter_id" varchar(25), "content" text, "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by" integer, "lock_version" integer DEFAULT 0) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_snippets")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('temp_name')[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE UNIQUE INDEX "name" ON "snippets" ("name")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_snippets"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_snippets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) DEFAULT '' NOT NULL, "filter_id" varchar(25), "content" text, "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by_id" integer, "lock_version" integer DEFAULT 0) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("snippets")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('name')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE UNIQUE INDEX "temp_name" ON "altered_snippets" ("name")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mDROP TABLE "snippets"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "snippets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) DEFAULT '' NOT NULL, "filter_id" varchar(25), "content" text, "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by_id" integer, "lock_version" integer DEFAULT 0) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_snippets")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('temp_name')[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE UNIQUE INDEX "name" ON "snippets" ("name")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_snippets"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_layouts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "content" text, "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by" integer, "content_type" varchar(40), "lock_version" integer DEFAULT 0) [0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("layouts")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mDROP TABLE "layouts"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "layouts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "content" text, "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by" integer, "content_type" varchar(40), "lock_version" integer DEFAULT 0) [0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("altered_layouts")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_layouts"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_layouts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "content" text, "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by_id" integer, "content_type" varchar(40), "lock_version" integer DEFAULT 0) [0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("layouts")[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mDROP TABLE "layouts"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "layouts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "content" text, "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by_id" integer, "content_type" varchar(40), "lock_version" integer DEFAULT 0) [0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("altered_layouts")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_layouts"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by" integer, "admin" boolean DEFAULT 'f' NOT NULL, "developer" boolean DEFAULT 'f' NOT NULL, "notes" text, "lock_version" integer DEFAULT 0) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('login')[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE UNIQUE INDEX "temp_login" ON "altered_users" ("login")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mDROP TABLE "users"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by" integer, "admin" boolean DEFAULT 'f' NOT NULL, "developer" boolean DEFAULT 'f' NOT NULL, "notes" text, "lock_version" integer DEFAULT 0) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_users")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('temp_login')[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE UNIQUE INDEX "login" ON "users" ("login")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_users"[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by_id" integer, "admin" boolean DEFAULT 'f' NOT NULL, "developer" boolean DEFAULT 'f' NOT NULL, "notes" text, "lock_version" integer DEFAULT 0) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('login')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE UNIQUE INDEX "temp_login" ON "altered_users" ("login")[0m
+  [4;36;1mSQL (19.7ms)[0m   [0;1mDROP TABLE "users"[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by_id" integer, "admin" boolean DEFAULT 'f' NOT NULL, "developer" boolean DEFAULT 'f' NOT NULL, "notes" text, "lock_version" integer DEFAULT 0) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_users")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('temp_login')[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mCREATE UNIQUE INDEX "login" ON "users" ("login")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_users"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('17')[0m
+Migrating to AddDescriptionAndKeywordsToPages (18)
+  [4;35;1mSQL (0.6ms)[0m   [0mALTER TABLE "pages" ADD "description" varchar(255)[0m
+  [4;36;1mSQL (12.3ms)[0m   [0;1mALTER TABLE "pages" ADD "keywords" varchar(255)[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('18')[0m
+Migrating to AddSaltToUsers (19)
+  [4;36;1mSQL (0.5ms)[0m   [0;1mALTER TABLE "users" ADD "salt" varchar(255)[0m
+  [4;35;1mUser Update (0.1ms)[0m   [0mUPDATE "users" SET "salt" = 'sweet harmonious biscuits' [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('19')[0m
+Migrating to AddSessionInfoToUsers (20)
+  [4;35;1mSQL (0.6ms)[0m   [0mALTER TABLE "users" ADD "session_token" varchar(255)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mALTER TABLE "users" ADD "session_expire" datetime[0m
+  [4;35;1mSQL (0.8ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20')[0m
+Migrating to RemoveSessionExpireFromUsers (21)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE TEMPORARY TABLE "altered_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by_id" integer, "admin" boolean DEFAULT 'f' NOT NULL, "developer" boolean DEFAULT 'f' NOT NULL, "notes" text, "lock_version" integer DEFAULT 0, "salt" varchar(255), "session_token" varchar(255), "session_expire" datetime) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('login')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE UNIQUE INDEX "temp_login" ON "altered_users" ("login")[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mDROP TABLE "users"[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100), "email" varchar(255), "login" varchar(40) DEFAULT '' NOT NULL, "password" varchar(40), "created_at" datetime, "updated_at" datetime, "created_by_id" integer, "updated_by_id" integer, "admin" boolean DEFAULT 'f' NOT NULL, "developer" boolean DEFAULT 'f' NOT NULL, "notes" text, "lock_version" integer DEFAULT 0, "salt" varchar(255), "session_token" varchar(255)) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("altered_users")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('temp_login')[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mCREATE UNIQUE INDEX "login" ON "users" ("login")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mDROP TABLE "altered_users"[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('21')[0m
+Migrating to AddIndexes (20081203140407)
+  [4;35;1mSQL (0.7ms)[0m   [0mCREATE INDEX "pages_class_name" ON "pages" ("class_name")[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCREATE INDEX "pages_parent_id" ON "pages" ("parent_id")[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mCREATE INDEX "pages_child_slug" ON "pages" ("slug", "parent_id")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mCREATE INDEX "pages_published" ON "pages" ("virtual", "status_id")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mCREATE INDEX "parts_by_page" ON "page_parts" ("page_id", "name")[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20081203140407')[0m
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.6ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("config")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('key')[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("extension_meta")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("layouts")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("page_parts")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('parts_by_page')[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mPRAGMA index_list("pages")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_published')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_child_slug')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_parent_id')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_class_name')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("sessions")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_sessions_on_updated_at')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_sessions_on_session_id')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("snippets")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('name')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('login')[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("config")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('key')[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("extension_meta")[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("layouts")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("page_parts")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('parts_by_page')[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mPRAGMA index_list("pages")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_published')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_child_slug')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_parent_id')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_class_name')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("sessions")[0m
+  [4;36;1mSQL (1.0ms)[0m   [0;1mPRAGMA index_info('index_sessions_on_updated_at')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_sessions_on_session_id')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("snippets")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('name')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("users")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('login')[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateRadiantTables (1)
+Migrating to InsertInitialData (2)
+Migrating to RenameBehaviorColumn (3)
+Migrating to RenameFilterColumn (4)
+Migrating to AddVirtualColumnToPage (5)
+Migrating to IntegerColumnsToBoolean (6)
+Migrating to RemoveVirtualColumnFromPage (7)
+Migrating to AddVirtualColumnToPageAgain (8)
+Migrating to AddContentTypeFieldToLayout (9)
+Migrating to MergeBehaviorsAndPages (10)
+Migrating to RenameTypeColumnOnPageToClassName (11)
+Migrating to CreateExtensionMeta (12)
+Migrating to AddNotesFieldToUser (13)
+Migrating to RenameConfigDefaultPartsKey (14)
+Migrating to AddOptimisticLocking (15)
+Migrating to AddSessions (16)
+Migrating to RenameCreatedByUpdatedByColumns (17)
+Migrating to AddDescriptionAndKeywordsToPages (18)
+Migrating to AddSaltToUsers (19)
+Migrating to AddSessionInfoToUsers (20)
+Migrating to RemoveSessionExpireFromUsers (21)
+Migrating to AddIndexes (20081203140407)
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (1.3ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("config")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('key')[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("extension_meta")[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("layouts")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("page_parts")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('parts_by_page')[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mPRAGMA index_list("pages")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_published')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_child_slug')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_parent_id')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_class_name')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("sessions")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_sessions_on_updated_at')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_sessions_on_session_id')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("snippets")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('name')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('login')[0m
+  [4;35;1mSQL (0.6ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.7ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mPRAGMA index_list("config")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('key')[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("extension_meta")[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("layouts")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("page_parts")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('parts_by_page')[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mPRAGMA index_list("pages")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_published')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_child_slug')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_parent_id')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_class_name')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("sessions")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_sessions_on_updated_at')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_sessions_on_session_id')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("snippets")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('name')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("users")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('login')[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("config")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('key')[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("extension_meta")[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("layouts")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("page_parts")[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mPRAGMA index_info('parts_by_page')[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mPRAGMA index_list("pages")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_published')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_child_slug')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_parent_id')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_class_name')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("sessions")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_sessions_on_updated_at')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_sessions_on_session_id')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("snippets")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('name')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('login')[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("config")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('key')[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("extension_meta")[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("layouts")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("page_parts")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('parts_by_page')[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mPRAGMA index_list("pages")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_published')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_child_slug')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('pages_parent_id')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('pages_class_name')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("sessions")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_sessions_on_updated_at')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_sessions_on_session_id')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("snippets")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('name')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("users")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('login')[0m
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."login" = 'ben') ORDER BY name LIMIT 1[0m
+  [4;35;1mUser Load (0.5ms)[0m   [0mSELECT "users".id FROM "users" WHERE ("users"."login" = 'ben') LIMIT 1[0m
+  [4;36;1mUser Create (0.4ms)[0m   [0;1mINSERT INTO "users" ("name", "updated_by_id", "salt", "session_token", "created_at", "developer", "updated_at", "created_by_id", "notes", "admin", "lock_version", "login", "password", "email") VALUES('benjamin', NULL, 'c481cf8ee236d1759b34bceed0f2eb6c970fce92', NULL, '2010-02-03 15:42:33', 'f', '2010-02-03 15:42:33', NULL, NULL, 't', 0, 'ben', 'ab89e3466227c3fb135335a422ec7095c431d4d4', NULL)[0m
+  [4;35;1mSQL (0.8ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mRadiant::Config Load (0.2ms)[0m   [0;1mSELECT * FROM "config" WHERE ("config"."key" = 'admin.title') LIMIT 1[0m
+  [4;35;1mRadiant::Config Create (0.4ms)[0m   [0mINSERT INTO "config" ("value", "key") VALUES('Radiant CMS', 'admin.title')[0m
+Cache write: Radiant.cache_file
+  [4;36;1mRadiant::Config Load (0.2ms)[0m   [0;1mSELECT * FROM "config" [0m
+Cache write: Radiant::Config
+Cache read: Radiant.cache_file
+Cache write: Radiant.cache_mtime
+  [4;35;1mSQL (0.8ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mRadiant::Config Load (0.2ms)[0m   [0;1mSELECT * FROM "config" WHERE ("config"."key" = 'admin.subtitle') LIMIT 1[0m
+  [4;35;1mRadiant::Config Create (0.4ms)[0m   [0mINSERT INTO "config" ("value", "key") VALUES('Publishing for Small Teams', 'admin.subtitle')[0m
+Cache write: Radiant.cache_file
+  [4;36;1mRadiant::Config Load (0.2ms)[0m   [0;1mSELECT * FROM "config" [0m
+Cache write: Radiant::Config
+Cache read: Radiant.cache_file
+Cache write: Radiant.cache_mtime
+  [4;35;1mSQL (1.0ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mRadiant::Config Load (0.2ms)[0m   [0;1mSELECT * FROM "config" WHERE ("config"."key" = 'defaults.page.parts') LIMIT 1[0m
+  [4;35;1mRadiant::Config Create (0.5ms)[0m   [0mINSERT INTO "config" ("value", "key") VALUES('body, extended', 'defaults.page.parts')[0m
+Cache write: Radiant.cache_file
+  [4;36;1mRadiant::Config Load (0.9ms)[0m   [0;1mSELECT * FROM "config" [0m
+Cache write: Radiant::Config
+Cache read: Radiant.cache_file
+Cache write: Radiant.cache_mtime
+  [4;35;1mSQL (0.5ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mRadiant::Config Load (0.2ms)[0m   [0;1mSELECT * FROM "config" WHERE ("config"."key" = 'defaults.page.status') LIMIT 1[0m
+  [4;35;1mRadiant::Config Create (2.4ms)[0m   [0mINSERT INTO "config" ("value", "key") VALUES('draft', 'defaults.page.status')[0m
+Cache write: Radiant.cache_file
+  [4;36;1mRadiant::Config Load (0.3ms)[0m   [0;1mSELECT * FROM "config" [0m
+Cache write: Radiant::Config
+Cache read: Radiant.cache_file
+Cache write: Radiant.cache_mtime
+  [4;35;1mSQL (0.8ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mRadiant::Config Load (0.3ms)[0m   [0;1mSELECT * FROM "config" WHERE ("config"."key" = 'defaults.page.filter') LIMIT 1[0m
+  [4;35;1mRadiant::Config Create (0.5ms)[0m   [0mINSERT INTO "config" ("value", "key") VALUES('', 'defaults.page.filter')[0m
+Cache write: Radiant.cache_file
+  [4;36;1mRadiant::Config Load (0.4ms)[0m   [0;1mSELECT * FROM "config" [0m
+Cache write: Radiant::Config
+Cache read: Radiant.cache_file
+Cache write: Radiant.cache_mtime
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mRadiant::Config Load (0.1ms)[0m   [0;1mSELECT * FROM "config" WHERE ("config"."key" = 'session_timeout') LIMIT 1[0m
+  [4;35;1mRadiant::Config Create (0.3ms)[0m   [0mINSERT INTO "config" ("value", "key") VALUES('1209600', 'session_timeout')[0m
+Cache write: Radiant.cache_file
+  [4;36;1mRadiant::Config Load (0.3ms)[0m   [0;1mSELECT * FROM "config" [0m
+Cache write: Radiant::Config
+Cache read: Radiant.cache_file
+Cache write: Radiant.cache_mtime
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.2ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'header') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.4ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('header', NULL, '2008-12-24 01:08:44', '', '2009-01-02 07:01:43', 1, 9, '<div id="header">
+<img src="http://spurrd.com/assets/120/banner.jpg" width="900px" alt="Your Company" />
+</div>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.2ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'footer') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.3ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('footer', NULL, '2008-12-24 01:08:44', '', '2009-01-02 07:45:16', 1, 5, 'Copyright &copy; <r:date format="%Y" /> your company. All rights reserved | <a href="mailto:info@yourcompany.com">Contact</a> | <a href="/sitemap">Site Map</a> | Powered by <a href="http://radiantcms.org/">Radiant</a>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.2ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'navigation') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.4ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('navigation', NULL, '2008-12-30 21:38:09', '', '2009-01-02 07:45:54', 1, 9, '<ul>
+ <r:navigation urls="Home: /">
+ <r:normal><li><a href="<r:url />"><r:title /></a></li></r:normal>
+ <r:here><li class="selected"><a href="<r:url />"><r:title /></a></li></r:here>
+ <r:selected><li><a href="<r:url />"><r:title /></a></li></r:selected>
+ </r:navigation>
+ <r:navigation urls="Tour: /tour | News: /news | Locations: /locations | About: /about">
+ <r:normal><li><a href="<r:url />"><r:title /></a></li></r:normal>
+ <r:here><li class="selected"><a href="<r:url />"><r:title /></a></li></r:here>
+ <r:selected><li class="selected"><a href="<r:url />"><r:title /></a></li></r:selected>
+ </r:navigation>
+</ul> ')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.3ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'newsletter') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.5ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('newsletter', NULL, '2008-12-31 01:08:12', '', '2009-01-02 06:11:14', 1, 19, '<div class="box">
+ <h3>Our Newsletter</h3>
+ <input class="email" value="Enter your email address..." type="text" onfocus="this.value=''''" id="" name="" />
+ <input class="subscribe" type="submit" value="Subscribe" />
+</div>')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.2ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'rss') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.3ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('rss', NULL, '2008-12-31 07:04:11', '', '2009-01-02 07:05:37', 1, 5, '<img src="http://spurrd.com/assets/147/rss.gif" />
+<h3>RSS</h3>
+<p>Get the <a href="/rss/">feed</a> for our latest news. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.</p>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.3ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'articles') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.3ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('articles', NULL, '2009-01-01 22:40:23', '', '2009-01-02 07:19:28', 1, 19, '<r:find url="/news">
+ <r:children:each order="desc" limit="3">
+ <div class="entry">
+ <h3><r:link /></h3>
+ <div class="posted">
+ Posted by <r:author /> on <r:date format="%B %d, %Y" /><em>|</em><img src="http://spurrd.com/assets/123/comment.png" /><a href="<r:url />#disqus_thread">Comments</a><em>|</em><r:link>Read full article</r:link> 
+ </div>
+ <r:content part="summary" />
+ </div>
+ </r:children:each>
+</r:find>
+
+<r:snippet name="comments_summary" />')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.2ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'sitemap') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.3ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('sitemap', NULL, '2009-01-01 23:51:52', '', '2009-01-02 00:45:01', 1, 14, ' <r:children:each by="title" order="asc">
+ <r:unless_content part="no-map">
+ <li>
+ <r:link />
+ <r:if_children>
+ <ul class="second">
+ <r:snippet name="sitemap" />
+ </ul>
+ </r:if_children>
+ </li>
+ </r:unless_content>
+ </r:children:each>
+
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.4ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'comments') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.4ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('comments', NULL, '2009-01-02 02:17:21', '', '2009-01-02 07:20:55', 1, 3, '<img src="http://spurrd.com/assets/126/comments.jpg" />
+
+<div id="disqus_thread"></div><r:comment><script type="text/javascript" src="http://disqus.com/forums/radiant/embed.js"></script><noscript><a href="http://radiant.disqus.com/?url=ref">View the discussion thread.</a></noscript></r:comment><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.2ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'comments_summary') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.3ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('comments_summary', NULL, '2009-01-02 02:18:23', '', '2009-01-02 02:59:44', 1, 4, '﻿﻿﻿﻿<script type="text/javascript">
+//<![CDATA[
+(function() {
+		var links = document.getElementsByTagName(''a'');
+		var query = ''?'';
+		for(var i = 0; i < links.length; i++) {
+			if(links[i].href.indexOf(''#disqus_thread'') >= 0) {
+				query += ''url'' + i + ''='' + encodeURIComponent(links[i].href) + ''&'';
+			}
+		}
+		document.write(''<script type="text/javascript" src="http://disqus.com/forums/radiant/get_num_replies.js'' + query + ''"></'' + ''script>'');
+	})();
+//]]>
+</script>
+
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSnippet Load (0.2ms)[0m   [0mSELECT "snippets".id FROM "snippets" WHERE ("snippets"."name" = 'posted') LIMIT 1[0m
+  [4;36;1mSnippet Create (0.3ms)[0m   [0;1mINSERT INTO "snippets" ("name", "updated_by_id", "created_at", "filter_id", "updated_at", "created_by_id", "lock_version", "content") VALUES('posted', NULL, '2009-01-02 07:32:00', '', '2009-01-02 07:32:00', 1, 0, '<div class="posted">Posted by <r:author /> on <r:date format="%B %d, %Y" /><em>|</em><img src="http://spurrd.com/assets/123/comment.png" /><a href="<r:url />#disqus_thread">Comments</a></div>')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = '/' AND "pages".parent_id IS NULL) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('/', 'Page', NULL, '2008-12-24 01:08:45', 'Home Page', 'f', '2009-01-02 07:38:13', 1, 78, 'Home', NULL, 100, '2008-12-23 18:08:45', '', 1, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'file-not-found' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('file-not-found', 'FileNotFoundPage', NULL, '2008-12-24 01:08:45', 'File Not Found', 't', '2008-12-24 01:08:45', 1, 0, 'File Not Found', 1, 100, '2008-12-23 18:08:45', NULL, NULL, NULL)[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'rss' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('rss', NULL, NULL, '2008-12-24 01:08:45', 'RSS Feed', 'f', '2008-12-24 01:08:45', 1, 0, 'RSS Feed', 1, 100, '2008-12-23 18:08:45', NULL, 3, NULL)[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'news' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('news', 'ArchivePage', NULL, '2008-12-24 01:08:45', 'Articles', 'f', '2009-01-02 07:27:53', 1, 18, 'News', 1, 100, '2008-12-23 18:08:45', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'new-location-opening-tonight' AND "pages".parent_id = 4) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('new-location-opening-tonight', 'Page', NULL, '2008-12-24 01:08:45', 'New location opening tonight', 'f', '2009-01-02 09:27:43', 1, 16, 'New location opening tonight', 4, 100, '2006-06-09 00:00:00', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.3ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'grass-fed-foam-from-jersey' AND "pages".parent_id = 4) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('grass-fed-foam-from-jersey', 'Page', NULL, '2008-12-24 01:08:45', 'Grass-fed foam from Jersey', 'f', '2009-01-02 07:31:42', 1, 8, 'Grass-fed foam from Jersey', 4, 100, '2006-06-10 00:00:00', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'styles.css' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('styles.css', 'Page', NULL, '2008-12-24 01:08:45', 'Styles', 'f', '2009-01-02 10:00:35', 1, 5, 'Styles', 1, 100, '2008-12-23 18:08:45', '', 2, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'the-finest-grind' AND "pages".parent_id = 4) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('the-finest-grind', 'Page', NULL, '2008-12-24 01:08:45', 'The Finest grind', 'f', '2009-01-02 09:27:11', 1, 11, 'The Finest grind', 4, 100, '2008-12-23 18:08:45', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'about' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('about', 'Page', NULL, '2008-12-24 01:08:45', 'About', 'f', '2009-01-02 09:22:02', 1, 9, 'About', 1, 100, '2008-12-23 18:08:45', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'monthly-archives' AND "pages".parent_id = 4) LIMIT 1[0m
+  [4;36;1mPage Create (0.4ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('monthly-archives', 'ArchiveMonthIndexPage', NULL, '2008-12-24 01:08:45', '%B %Y Archives', 't', '2009-01-02 07:29:46', 1, 9, 'Monthly Archives', 4, 100, '2008-12-23 18:08:45', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'sitemap' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('sitemap', 'Page', NULL, '2009-01-01 23:49:07', 'Site Map', 'f', '2009-01-02 01:31:41', 1, 11, 'Site Map', 1, 100, '2009-01-01 16:49:07', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'locations' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('locations', 'Page', NULL, '2009-01-02 02:11:32', 'Locations', 'f', '2009-01-02 04:08:35', 1, 8, 'Locations', 1, 100, '2009-01-01 19:11:32', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'tour' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('tour', 'Page', NULL, '2009-01-02 07:36:32', 'Tour', 'f', '2009-01-02 09:48:51', 1, 25, 'Tour', 1, 100, '2009-01-02 00:49:40', '', NULL, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPage Load (0.2ms)[0m   [0mSELECT "pages".id FROM "pages" WHERE ("pages"."slug" = 'reset.css' AND "pages".parent_id = 1) LIMIT 1[0m
+  [4;36;1mPage Create (0.5ms)[0m   [0;1mINSERT INTO "pages" ("slug", "class_name", "updated_by_id", "created_at", "title", "virtual", "updated_at", "created_by_id", "lock_version", "breadcrumb", "parent_id", "status_id", "published_at", "description", "layout_id", "keywords") VALUES('reset.css', 'Page', NULL, '2009-01-02 10:00:27', 'Reset', 'f', '2009-01-02 10:06:13', 1, 2, 'Reset', 1, 100, '2009-01-02 03:06:13', '', 2, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mLayout Load (0.2ms)[0m   [0mSELECT "layouts".id FROM "layouts" WHERE ("layouts"."name" = 'Normal') LIMIT 1[0m
+  [4;36;1mLayout Create (0.3ms)[0m   [0;1mINSERT INTO "layouts" ("name", "updated_by_id", "created_at", "content_type", "updated_at", "created_by_id", "lock_version", "content") VALUES('Normal', NULL, '2008-12-24 01:08:45', '', '2009-01-02 10:07:28', 1, 35, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+ <head>
+ <title><r:title /></title>
+ <link href="/rss/" rel="alternate" title="RSS" type="application/rss+xml" />
+ <link rel="stylesheet" type="text/css" href="/reset.css" />
+ <link rel="stylesheet" type="text/css" href="/styles.css" />
+ <script type="text/javascript" src="http://www.jeroenwijering.com/embed/swfobject.js"></script>
+ <script type="text/javascript" src="http://spurrd.com/javascripts/prototype.js"></script>
+ <script type="text/javascript" src="http://spurrd.com/javascripts/scriptaculous.js?load=effects,builder"></script>
+ <script type="text/javascript" src="http://spurrd.com/javascripts/lightbox.js"></script>
+
+ <!--[if IE 6]>
+ <style type="text/css" media="screen">
+ @import url("/stylesheets/ie6.css");
+ </style>
+ <![endif]-->
+
+ <!--[if IE 7]>
+ <style type="text/css" media="screen">
+ @import url("/stylesheets/ie7.css");
+ </style>
+ <![endif]-->
+
+ </head>
+ <body>
+ <div id="page">
+ <r:snippet name="header" />
+ <div id="nav">
+ <r:snippet name="navigation" />
+ </div>
+ <div id="main">
+ <div id="content-wrapper">
+ <div id="content">
+ <r:content />
+ <r:if_content part="extended">
+ <div id="extended">
+ <r:content part="extended" />
+ </div>
+ </r:if_content>
+ </div>
+ </div>
+ <div id="sidebar-wrapper">
+ <div id="sidebar">
+ <r:content part="sidebar" inherit="true" />
+ </div>
+ </div>
+ </div>
+ <div style="clear:both"></div>
+ </div>
+ </body>
+ <div id="footer-wrapper">
+ <div id="footer">
+ <r:snippet name="footer" />
+ </div>
+ </div>
+</html>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mLayout Load (0.2ms)[0m   [0mSELECT "layouts".id FROM "layouts" WHERE ("layouts"."name" = 'Stylesheet') LIMIT 1[0m
+  [4;36;1mLayout Create (0.3ms)[0m   [0;1mINSERT INTO "layouts" ("name", "updated_by_id", "created_at", "content_type", "updated_at", "created_by_id", "lock_version", "content") VALUES('Stylesheet', NULL, '2008-12-24 01:08:45', 'text/css', '2009-01-02 10:00:53', 1, 1, '<r:content />
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mLayout Load (0.2ms)[0m   [0mSELECT "layouts".id FROM "layouts" WHERE ("layouts"."name" = 'XML Feed') LIMIT 1[0m
+  [4;36;1mLayout Create (0.3ms)[0m   [0;1mINSERT INTO "layouts" ("name", "updated_by_id", "created_at", "content_type", "updated_at", "created_by_id", "lock_version", "content") VALUES('XML Feed', NULL, '2008-12-24 01:08:45', 'text/xml', '2008-12-24 01:08:45', 1, 0, '<r:content />
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', '', 1, '<div id="extra">
+ <div class="box">
+ <div id="player">
+ <script type="text/javascript">
+ var so = new SWFObject(''/video/player.swf'',''mpl'',''200'',''145'',''8'');
+ so.addParam(''allowscriptaccess'',''always'');
+ so.addParam(''allowfullscreen'',''true'');
+ so.addParam(''flashvars'',''&file=http://content.bitsontherun.com/videos/3ta6fhJQ.flv&image=http://spurrd.com/assets/138/preview.jpg&controlbar=none'');
+ so.write(''player'');
+ </script>
+ </div>
+<h2>Yummy!</h2>
+ <p><span>Vivamust consumey morfoamy.</span><br /> In portor auctor neque. Morbi gravida elit non ante. Praesent eros elit, consequat et, rhoncuses atet, rhoncus posuere, massa. Praesent tempor, felis varius gravida!</p>
+ </div>
+</div>
+
+<r:snippet name="articles" />
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', 'Textile', 2, 'The file you were looking for could not be found.
+
+Attempted URL: @<r:attempted_url />@
+
+It is possible that you typed the URL incorrectly or that you clicked on a bad link.
+
+"<< Back to Home Page":/
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+Cache read: Radiant.cache_file
+Cache read: Radiant.cache_file
+Cache read: Radiant.cache_file
+Cache read: Radiant.cache_file
+Cache read: Radiant.cache_mtime
+Cache read: Radiant.cache_file
+Cache read: Radiant::Config
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', '', 3, '<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <channel>
+ <title>Article RSS Feed</title>
+ <link>http://your-web-site.com<r:url /></link>
+ <language>en-us</language>
+ <ttl>40</ttl>
+ <description>The main blog feed for my Web site.</description>
+ <r:find url="/news/">
+ <r:children:each limit="10" order="desc">
+ <item>
+ <title><r:title /></title>
+ <description><r:escape_html><r:content /></r:escape_html></description>
+ <pubDate><r:rfc1123_date /></pubDate>
+ <guid>http://your-web-site.com<r:url /></guid>
+ <link>http://your-web-site.com<r:url /></link>
+ </item>
+ </r:children:each>
+ </r:find>
+ </channel>
+</rss>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', '', 4, '<r:children:each limit="5" order="desc">
+<div class="entry">
+ <h3><r:link /></h3>
+ <div class="posted">
+ Posted by <r:author /> on <r:date format="%B %d, %Y" /><em>|</em><img src="http://spurrd.com/assets/123/comment.png" /><a href="<r:url />#disqus_thread">Comments</a><em>|</em><r:link>Read full article</r:link> 
+ </div>
+ <r:content part="summary" />
+</div>
+</r:children:each>
+
+<r:snippet name="comments_summary" />')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', 'Textile', 5, '<h3><r:title /></h3>
+<r:snippet name="posted" />
+
+At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+
+Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+
+<r:snippet name="comments" />
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', 'Textile', 6, '<h3><r:title /></h3>
+<r:snippet name="posted" />
+
+Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. 
+
+<r:snippet name="comments" />')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', '', 7, '/*--------------------------------- Styles.css ---*/ 
+
+body {
+ background-color: #BFC1C4;
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 80%;
+ padding: 0;
+ margin: 0;
+ text-align: center; }
+
+#page {
+ margin: 15px auto;
+ width: 900px;
+ text-align: left;
+ border: 2px solid #9EA3AC;
+ padding: 5px;
+ background-color: #FFFFFF;
+ clear: both; }
+
+#header {
+ color: #FFFFFF;
+ font-family: Arial,Helvetica,Geneva,sans-serif;
+ font-size: 35px;
+ font-weight: bold;
+ letter-spacing: 0.02em;
+ line-height: 0.72em;
+ text-transform: uppercase; }
+
+#main {
+ background-color: white;
+ float: left;
+ width: 100%;
+ margin: 15px 0px 30px; }
+
+h1 {
+ color: #FFFFFF;
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 35px;
+ font-weight: bold;
+ letter-spacing: 0.02em;
+ line-height: 0.72em;
+ text-transform: uppercase; }
+
+h2 {
+ color: #451811;
+ font-family: Georgia, sans-serif;
+ font-size: 270%;
+ font-weight: normal;
+ margin: 0px; }
+
+h3 {
+ font-family: Helvetica, Arial, Verdana, sans-serif;
+ font-size: 195%;
+ margin: 0px;
+ font-weight: bold; }
+
+h3 a {
+ color: #451811;
+ text-decoration: none;
+ border-bottom: none;
+ margin: 0px; }
+
+h3 a:hover {
+ color: #902f1c;
+ border-bottom: none; }
+
+a {
+ color: #711e11;
+ text-decoration: none;
+ border-bottom: 1px solid #DBD6D1; } 
+
+a:hover {
+ color: #451811;
+ text-decoration: none;
+ border-bottom: 2px solid #DBD6D1; }
+
+p {
+ color: #232323;
+ font-family: Georgia, Times, "Times New Roman";
+ font-size: 1.3em;
+ line-height: 1.3em;
+ margin: 0px 0px 10px; }
+
+ul {
+ padding: 0; }
+
+li {
+ padding: 0; }
+
+
+/*---MAIN COLUMN---*/ 
+
+#content-wrapper {
+ float: left;
+ width: 600px; }
+
+#content {
+ padding: 0px 15px; }
+
+
+/*---SIDEBAR---*/ 
+
+#sidebar-wrapper {
+ float: right;
+ width: 300px; }
+
+#sidebar {
+ font-size: 90%;
+ padding: 15px;
+ padding-top: 0px; }
+
+#sidebar h3 {
+ color: #222222;
+ font-family: Helvetica, Arial, Verdana, sans-serif;
+ font-size: 17px;
+ font-weight: bold;
+ margin: 0px; }
+
+#sidebar p {
+ line-height: 1.4em; }
+
+
+/*---ARTICLE---*/ 
+
+.entry {
+ margin-bottom: 20px; }
+
+.entry .info {
+ margin-top: 1em;
+ font-size: 1em; }
+
+.entry p {
+ font-size: 1.1em; }
+
+.posted {
+ color: #918C7E;
+ font-family: "lucida grande",arial,helvetica,verdana,sans-serif;
+ font-size: 10px;
+ margin: -3px 0 5px;
+ padding: 0px; }
+
+.posted em {
+ color: #451811;
+ font-style: italic;
+ margin: 0px 6px;
+ font-weight: bold; }
+
+.posted img {
+ background: transparent none repeat scroll 0 0;
+ border: medium none;
+ margin: 0 4px -5px 2px;
+ text-decoration: none; }
+
+
+/*---STYLES---*/ 
+
+#extra {
+ margin-bottom: 10px; }
+
+#extra .box {
+ background-color: #e8f0f6;
+ border-color: #D5E9F6; }
+
+#extra p {
+ line-height: 1.2em;
+ margin: 0px 0px 5px 0px; }
+
+#extra em {
+ font-style: italic; }
+
+#extra span {
+ color: #d26511;
+ font-size: 120%; }
+
+#player, #gallery {
+ background: #FFFFFF;
+ float: left;
+ clear: both;
+ margin: 0px 15px 15px 0px;
+ padding: 3px;
+ border: 1px solid #a9cde5; }
+
+#gallery a, 
+#gallery a:hover, 
+#player a, 
+#player a:hover,
+#extra img a,
+#extra img a:hover {
+ border-bottom: none !important;
+ text-decoration: none !important; }
+
+#extra a img {
+ margin-bottom: -3px; }
+
+.spot {
+ margin-bottom: 20px;
+ clear: both; }
+
+.spot p {
+ font-family: Verdana, sans-serif;
+ font-size: 11px; 
+ color: #333333;
+ margin-top: 0px; }
+
+.spot img {
+ float: left;
+ padding: 0px 12px 10px 0px; }
+
+.box {
+ padding: 15px;
+ border: 1px solid #dbd6d1;
+ background-color: #efedeb;
+ margin-bottom: 20px; }
+
+.box h3 {
+ font-size: 18px;
+ margin-bottom: 2px; }
+
+.box input {
+ margin-top: 5px; }
+
+.box input.email {
+ font-size: 10px;
+ padding: 3px; 
+ color: #a29e96; 
+ width: 140px; }
+
+.box input.subscribe {
+ width: 70px;
+ margin-left: 5px;
+ color: #232323; }
+
+.box ul {
+ margin-left: 20px; }
+
+.hidden {
+ display: none; }
+
+.clear {
+ clear: both; }
+
+/*---SITEMAP---*/ 
+
+#sitemap ul {
+ list-style-type: disc;
+ margin: 5px 0px 10px 35px;
+ line-height: 2em; }
+
+#sitemap li a {
+ font-family: Helvetica, Arial, Verdana, sans-serif;
+ font-size: 180%;
+ font-weight: bold;
+ margin: 0px; 
+ color: #451811;
+ text-decoration: none;
+ border-bottom: none; }
+
+#sitemap li a:hover {
+ color: #902f1c;
+ border-bottom: none; }
+
+#sitemap ul.second {
+ font-size: 80%; }
+
+/*---FOOTER---*/ 
+
+#footer-wrapper {
+ margin: 5px auto;
+ width: 900px; }
+
+#footer {
+ color: #595452;
+ float: right;
+ font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+ font-size: 90%;
+ margin-bottom: 30px; }
+
+
+/*--------------------------------- Navigation.css ---*/ 
+
+#nav {
+	height: 38px;
+	background: transparent url(http://spurrd.com/assets/132/nav-background.gif) repeat-x top left; }
+
+#nav ul {
+	display: block;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	width: auto; }
+
+#nav ul li {
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 0; }
+
+#nav ul li a {
+ font-family: "Lucida Sans", "Lucida Grande", Helvetica, Arial, sans-serif;
+ font-size: 13px;
+	display: block;
+	float: left;
+	color: #3D3D3D;
+	text-decoration: none;
+	padding: 8px 16px 7px;
+	border-bottom: none;
+	background: transparent url(http://spurrd.com/assets/150/nav-divider.gif) no-repeat top right; }
+
+#nav ul li a:hover {
+ color: #FFFFFF;
+ background: #49140c;
+ border-bottom: 1px solid #49140c; }
+
+#nav ul li.selected a {
+ color: #FFFFFF;
+ background: #0b0b0a;
+ border-bottom: 1px solid #0b0b0a; }
+
+
+/*--------------------------------- Lightbox.css ---*/ 
+
+#lightbox{	position: absolute;	left: 0; width: 100%; z-index: 100; text-align: center; line-height: 0;}
+#lightbox img{ width: auto; height: auto;}
+#lightbox a img{ border: none; }
+
+#outerImageContainer{ position: relative; background-color: #fff; width: 250px; height: 250px; margin: 0 auto; }
+#imageContainer{ padding: 10px; }
+
+#loading{ position: absolute; top: 40%; left: 0%; height: 25%; width: 100%; text-align: center; line-height: 0; }
+#hoverNav{ position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: 10; border-bottom: none; }
+#imageContainer>#hoverNav{ left: 0;}
+#hoverNav a{ outline: none; border-bottom: none;}
+
+#prevLink, #nextLink{ width: 49%; height: 100%; background-image: url(data:image/gif;base64,AAAA); /* Trick IE into showing hover */ display: block; }
+#prevLink { left: 0; float: left;}
+#nextLink { right: 0; float: right;} 
+#prevLink:hover, #prevLink:visited:hover { background: url(http://spurrd.com/assets/192/prevlabel.gif) left 15% no-repeat; }
+#nextLink:hover, #nextLink:visited:hover { background: url(http://www.spurrd.com/assets/189/nextlabel.gif) right 15% no-repeat; }
+
+#imageDataContainer{ font: 10px Verdana, Helvetica, sans-serif; background-color: #fff; margin: 0 auto; line-height: 1.4em; overflow: auto; width: 100%	; }
+
+#imageData{	padding:0 10px; color: #666; }
+#imageData #imageDetails{ width: 70%; float: left; text-align: left; }	
+#imageData #caption{ font-weight: bold;	}
+#imageData #numberDisplay{ display: block; clear: left; padding-bottom: 1.0em;	}			
+#imageData #bottomNavClose{ width: 66px; float: right; padding-bottom: 0.7em; outline: none;}	 	
+
+#overlay{ position: absolute; top: 0; left: 0; z-index: 90; width: 100%; height: 500px; background-color: #000; }
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('sidebar', '', 1, '<div class="spot">
+<img src="http://spurrd.com/assets/141/prize.gif" />
+<h3>Best of Show</h3>
+<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia <a href="/about">consequuntur</a> magni dolor eos qui ration volupt sequi nesciunt. Proin varius urna. In varius bibendum nisl. Donec nec nisi ut nisi varius porttitor.</p>
+</div>
+
+<div class="spot">
+<img src="http://spurrd.com/assets/129/green.gif" />
+<h3>Happy Planet</h3>
+<p>Mauris elit lacus, iaculis a, cons nec, vehicula <a href="/about">condimentum</a> at. Suspendisse sapien enim, tempus ut, facilisis at, vestibulum nec, nunc. Aliquam erat volutpat. Ut sit amet quam. Cum soci natoque penati et magnis dis partur montes, nascet ridiculus mus. Aen vel urna. In justo nisl, cursus in, molestie a, vulputate nec. </p> 
+</div>
+
+<div class="spot">
+<img src="http://spurrd.com/assets/144/recycle.gif" />
+<h3>Round and round</h3>
+<p>Donec tempor mollis ante. Nunc felis. Proin ac pede vel nulla lacinia congue. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi cursus, dui quis pretium blandit, erat massa lacinia neque, eu porttitor lacus erat ac leo.</p>
+</div>
+
+<r:snippet name="newsletter" />
+
+<div class="spot"><r:snippet name="rss" /></div>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', 'Textile', 8, '<h3><r:title /></h3>
+<r:snippet name="posted" />
+
+Vivamus mollis porttitor odio. Vestibulum id mi. Suspendisse a tortor quis metus imperdiet eleifend. Pellentesque libero nulla, aliquam in, tristique vel, elementum et, odio. Fusce id ligula. Vivamus dapibus imperdiet ante. Aliquam id eros ut velit eleifend aliquet. Nulla commodo viverra orci. Sed auctor. Maecenas commodo. Mauris adipiscing lectus quis quam. Nulla a nisl in augue suscipit tincidunt. Nunc eros. Nam eget sapien eget lorem ultrices pulvinar. Vivamus dolor.
+
+Suspendisse auctor risus nec odio. Sed tortor sem, tempor eu, molestie ac, viverra et, arcu. Donec aliquet pede eget tellus. Pellentesque facilisis nibh in ante. Mauris et lectus. Nullam pede. Nam sed pede sollicitudin mi congue vestibulum. Suspendisse et diam sed odio venenatis dictum. 
+
+Integer eget nunc sit amet felis interdum sollicitudin. Mauris posuere, quam eu aliquam iaculis, ipsum magna pellentesque arcu, id rutrum augue erat luctus magna.
+
+Praesent ut lacus. Fusce interdum metus laoreet mi. Duis aliquet. Nunc malesuada leo id nulla. Praesent condimentum metus nec odio. Ut ut velit dapibus nibh interdum eleifend. Proin tempor sodales enim. Donec ultricies. Duis bibendum urna id ante. Donec ipsum lorem, venenatis et, tempus ut, vehicula et, mi. 
+
+<r:snippet name="comments" />')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', 'Textile', 9, 'h2. Since 1999...
+
+Duis vitae mi. Nunc tristique mauris malesuada odio. Integer pharetra, urna sit amet scelerisque sollicitudin, felis est rhoncus nibh, sed sollicitudin ipsum lacus quis metus. In hac habitasse platea dictumst. Sed quis sem eu libero tristique vehicula. In fermentum, pede ut congue placerat, arcu erat tempor augue, id ornare ipsum ante vitae tellus. Duis bibendum quam vitae lectus. Curabitur euismod nulla a risus. Suspendisse erat. Nulla facilisi. Integer odio felis, sollicitudin in, feugiat non, dictum sit amet, elit. ')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('sidebar', '', 9, '<div class="box" style="margin-top:50px">
+ <h3>Main office</h3>
+ 222 Address Street<br />
+ Portland, OR 97008<br />
+ (503) 545-7777
+</div>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('sidebar', '', 4, '<div class="box">
+<h3>News Archives</h3>
+<ul>
+<r:find url="/news/">
+<r:children:each order="desc">
+<r:header><li><a href="<r:date format="/news/%Y/%m/" />"><r:date format="%B %Y" /></a></li></r:header>
+</r:children:each>
+</r:find>
+</ul>
+</div>
+
+<r:snippet name="newsletter" />
+
+<div class="spot"><r:snippet name="rss" /></div>')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', '', 10, '<r:archive:children:each order="desc">
+<div class="entry">
+<h3><r:link /></h3>
+ <div class="posted">
+ Posted by <r:author /> on <r:date format="%B %d, %Y" /><em>|</em><img src="http://spurrd.com/assets/123/comment.png" /><a href="<r:url />#disqus_thread">Comments</a><em>|</em><r:link>Read full article</r:link> 
+ </div>
+ <r:content part="summary" />
+</div>
+</r:archive:children:each>
+
+<r:snippet name="comments_summary" />')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('summary', 'Textile', 5, 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('summary', 'Textile', 6, 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.6ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('summary', 'Textile', 8, 'Vivamus mollis porttitor odio. Vestibulum id mi. Suspendisse a tortor quis metus imperdiet eleifend. Pellentesque libero nulla, aliquam in, tristique vel, elementum et, odio. Fusce id ligula. Vivamus dapibus imperdiet ante. Aliquam id eros ut velit eleifend aliquet. Nulla commodo viverra orci. Sed auctor. Maecenas commodo. Mauris adipiscing lectus quis quam. Nulla a nisl in augue suscipit tincidunt. Nunc eros. Nam eget sapien eget lorem ultrices pulvinar. Vivamus dolor.')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', '', 11, '<h2>Site Map</h2>
+
+<div id="sitemap">
+ <ul>
+ <r:find url="/">
+ <r:snippet name="sitemap" />
+ </r:find>
+ </ul>
+</div>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('extended', '', 11, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('no-map', '', 7, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('no-map', '', 11, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.3ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', 'Textile', 12, '<iframe width="868" height="480" frameborder="0" style="border:1px solid #dbd6d1;" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps/ms?ie=UTF8&amp;hl=en&amp;t=k&amp;s=AARTsJoMI8Z8NYIgz5ckH51H72GUL2fOcw&amp;msa=0&amp;msid=113091985902776583734.00045f77d6a96be3a6389&amp;ll=45.519759,-122.668791&amp;spn=0.030069,0.075531&amp;z=14&amp;output=embed"></iframe><br /><small><a href="http://maps.google.com/maps/ms?ie=UTF8&amp;hl=en&amp;t=k&amp;msa=0&amp;msid=113091985902776583734.00045f77d6a96be3a6389&amp;ll=45.519759,-122.668791&amp;spn=0.030069,0.075531&amp;z=14&amp;source=embed" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.4ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('sidebar', '', 12, '')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', '', 13, '<div id="extra">
+ <div class="box">
+ <div id="gallery">
+ <a href="http://spurrd.com/assets/162/gallery1.jpg" rel="lightbox[growers]" title="This is a caption." /><img src="http://spurrd.com/assets/198/thumb-grower.jpg" /></a>
+ <a href="http://spurrd.com/assets/165/gallery2.jpg" rel="lightbox[growers]" title="This is a caption."></a>
+ <a href="http://spurrd.com/assets/168/gallery3.jpg" rel="lightbox[growers]" title="This is a caption."></a>
+ <a href="http://spurrd.com/assets/171/gallery4.jpg" rel="lightbox[growers]" title="This is a caption."></a>
+ </div>
+ <h2>Our growers</h2>
+ <p><span>Fromus neatus farmus alwaze.</span><br /> In portor auctor neque. Morbi gravida elit non ante. Praesent eros elit, consequat et, rhoncuses atet, rhoncus posuere, massa. Praesent tempor, felis varius gravida!</p>
+ </div>
+</div>
+
+<div id="extra">
+ <div class="box">
+ <div id="gallery">
+ <a href="http://spurrd.com/assets/162/gallery1.jpg" rel="lightbox[roasters]" title="This is a caption." /><img src="http://spurrd.com/assets/201/thumb-roaster.jpg" /></a>
+ <a href="http://spurrd.com/assets/165/gallery2.jpg" rel="lightbox[roasters]" title="This is a caption."></a>
+ <a href="http://spurrd.com/assets/168/gallery3.jpg" rel="lightbox[roasters]" title="This is a caption."></a>
+ <a href="http://spurrd.com/assets/171/gallery4.jpg" rel="lightbox[roasters]" title="This is a caption."></a>
+ </div>
+ <h2>Our roasters</h2>
+ <p><span>Bestes machinum inde wurlde.</span><br /> In portor auctor neque. Morbi gravida elit non ante. Praesent eros elit, consequat et, rhoncuses atet, rhoncus posuere, massa. Praesent tempor, felis varius gravida!</p>
+ </div>
+</div>
+
+<div id="extra">
+ <div class="box">
+ <div id="gallery">
+ <a href="http://spurrd.com/assets/162/gallery1.jpg" rel="lightbox[grinders]" title="This is a caption." /><img src="http://spurrd.com/assets/195/thumb-grinder.jpg" /></a>
+ <a href="http://spurrd.com/assets/165/gallery2.jpg" rel="lightbox[grinders]" title="This is a caption."></a>
+ <a href="http://spurrd.com/assets/168/gallery3.jpg" rel="lightbox[grinders]" title="This is a caption."></a>
+ <a href="http://spurrd.com/assets/171/gallery4.jpg" rel="lightbox[grinders]" title="This is a caption."></a>
+ </div>
+ <h2>Our grinders</h2>
+ <p><span>Whata treet itis tu heerit.</span><br /> In portor auctor neque. Morbi gravida elit non ante. Praesent eros elit, consequat et, rhoncuses atet, rhoncus posuere, massa. Praesent tempor, felis varius gravida!</p>
+ </div>
+</div>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.3ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('sidebar', '', 13, '<div class="spot">
+<img src="http://spurrd.com/assets/156/open.gif" />
+<h3>Almost always open</h3>
+<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia <a href="/about">consequuntur</a> magni dolor eos qui ration volupt sequi nesciunt. Proin varius urna. In varius bibendum nisl. Donec nec nisi ut nisi varius porttitor.</p>
+</div>
+
+<div class="spot">
+<img src="http://spurrd.com/assets/153/gift.gif" />
+<h3>Roaster gift cards</h3>
+<p>Mauris elit lacus, iaculis a, cons nec, vehicula <a href="/about">condimentum</a> at. Suspendisse sapien enim, tempus ut, facilisis at, vestibulum nec, nunc. Aliquam erat volutpat. Ut sit amet quam. Cum soci natoque penati et magnis dis partur montes, nascet ridiculus mus. Aen vel urna. In justo nisl, cursus in, molestie a, vulputate nec. </p> 
+</div>
+
+<div class="spot">
+<img src="http://spurrd.com/assets/159/truck.gif" />
+<h3>Metro delivery</h3>
+<p>Iaculis a, cons nec, condi<a href="/about"> vehicula</a>. Suspendisse sapien enim, tempus ut, facilisis at, vestibulum nec, nunc. Aliquam erat volutpat. Ut sit amet quam. Cum soci natoque penati et magnis dis partur montes, nascet ridiculus mus. Aen vel urna. In justo nisl, cursus in, molestie. </p> 
+</div>
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;36;1mPagePart Create (0.4ms)[0m   [0;1mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('body', '', 14, '/* -------------------------------------------------------------- 
+
+ reset.css
+ * Resets default browser CSS.
+
+ Based on work by Eric Meyer:
+ * meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
+
+ Icons are available for purchase at:
+ * http://www.istockphoto.com/file_closeup/arts-and-entertainment/arts-symbols/4575877-satin-icons-set-9.php?id=4575877
+
+-------------------------------------------------------------- */
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, code,
+del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+
+body { line-height: 1.5; background: #fff; margin:1.5em 0; }
+
+/* Tables still need ''cellspacing="0"'' in the markup. */
+table { border-collapse: separate; border-spacing: 0; }
+caption, th, td { text-align: left; font-weight:400; }
+
+/* Remove possible quote marks (") from <q>, <blockquote>. */
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+
+a img { border: none; }
+')[0m
+WARNING: Can't mass-assign these protected attributes: id
+  [4;35;1mPagePart Create (0.5ms)[0m   [0mINSERT INTO "page_parts" ("name", "filter_id", "page_id", "content") VALUES('no-map', '', 14, '')[0m
