@@ -78,3 +78,4 @@ Radiant::Initializer.run do |config|
 end
 
 RADIANT_GEM_VERSION = "0.8.1" unless defined? RADIANT_GEM_VERSION
+ENV['RAILS_ENV'] ||= 'production'
